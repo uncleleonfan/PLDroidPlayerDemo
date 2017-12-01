@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.leon.pldroidplayerdemo.MainActivity">
 
     <Button
@@ -12,5 +13,18 @@
         android:layout_height="wrap_content"
         android:text="PLVideoView"
         android:onClick="onStartPLVideoView"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PLTextureView"
+        android:onClick="onStartPLTextureView"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义UI"
+        android:onClick="onStartCustomView"/>
 
 </LinearLayout>

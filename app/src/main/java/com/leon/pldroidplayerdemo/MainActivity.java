@@ -17,4 +17,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PLVideoViewActivity.class);
         startActivity(intent);
     }
+
+    public void onStartPLTextureView(View view) {
+        Intent intent = new Intent(this, PLVideoTextureActivity.class);
+        startActivity(intent);
+    }
+
+    public void onStartCustomView(View view) {
+        Intent intent = new Intent(this, CustomVideoViewActivity.class);
+        startActivity(intent);
+    }
 }

@@ -9,6 +9,8 @@ PLDroidPlayer的SDK挂载在Github:[https://github.com/pili-engineering/PLDroidP
 
 ![](img/import_sdk.png)
 
+导入完成后，记得同步一下，这样就能调用SDK里面的API了。
+
 ### 清单文件配置 ###
 在清单文件中添加4个权限：
 
@@ -18,7 +20,7 @@ PLDroidPlayer的SDK挂载在Github:[https://github.com/pili-engineering/PLDroidP
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 1. 网络权限
-2. 读取外部磁盘权限：在需要缓存视频文件时需要
+2. 读取外部磁盘权限：在需要缓存视频文件时需要（在6.0以上版本需要动态申请）
 3. 唤醒锁权限：播放视频控制不黑屏使用
 4. 获取网络状态权限：在需要判断网络连接状态时使用
 
