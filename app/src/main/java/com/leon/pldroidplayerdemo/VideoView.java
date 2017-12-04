@@ -95,13 +95,11 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-            mTextureView.pause();
             removeCallbacks(mHider);
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            mTextureView.start();
             postDelayed(mHider, HIDE_DELAY);
         }
     };

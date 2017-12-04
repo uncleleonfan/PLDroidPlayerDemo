@@ -1,6 +1,7 @@
 # PLDroidPlayer使用教程 #
 [官方文档](https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk?ref=www.qiniu.com)
 
+![](img/pl.gif)
 ## 集成SDK ##
 ### 下载SDK ###
 PLDroidPlayer的SDK挂载在Github:[https://github.com/pili-engineering/PLDroidPlayer/releases](https://github.com/pili-engineering/PLDroidPlayer/releases)，我们选择最新SDK下载。希望官方能够提供Gradle依赖，这样会方便很多。
@@ -253,18 +254,6 @@ PLDroidPlayer只提供比较简单的播放控件PLVideoView和PLVideoTextureVie
 				//设置播放进度
                 mTextureView.seekTo(progress);
             }
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-			//开始拖动时暂停播放
-            mTextureView.pause();
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-			//拖动结束时
-            mTextureView.start();
         }
     };
 
