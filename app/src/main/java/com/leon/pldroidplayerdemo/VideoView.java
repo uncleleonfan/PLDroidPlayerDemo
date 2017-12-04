@@ -1,11 +1,9 @@
 package com.leon.pldroidplayerdemo;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +22,7 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
 
     private static final String TAG = "VideoView";
 
-    private static final int DELAY = 200;
+    private static final int DELAY = 500;
     private static final int HIDE_DELAY = 5000;
 
     private PLVideoTextureView mTextureView;
@@ -34,8 +32,6 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
     private SeekBar mSeekBar;
     private LinearLayout mBottomLayout;
     private ProgressBar mProgressBar;
-
-    private Handler mHandler = new Handler();
 
     public VideoView(@NonNull Context context) {
         this(context, null);
@@ -66,15 +62,17 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(PLMediaPlayer plMediaPlayer, int i) {
+
+            mProgressBar.setVisibility(View.GONE);
+
             long duration = mTextureView.getDuration();
             mDuration.setText(TimeUtils.stringForTime(duration));
             mSeekBar.setMax((int) duration);
-            mProgressBar.setVisibility(View.GONE);
-            mHandler.postDelayed(mTicker, DELAY);
+            postDelayed(mTicker, DELAY);
 
             mPlay.setVisibility(View.VISIBLE);
             mBottomLayout.setVisibility(View.VISIBLE);
-            mHandler.postDelayed(mHider, HIDE_DELAY);
+            postDelayed(mHider, HIDE_DELAY);
         }
     };
 
@@ -82,6 +80,8 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
         @Override
         public void onCompletion(PLMediaPlayer plMediaPlayer) {
             mPlay.setImageResource(R.drawable.play_selector);
+            mCurrentTime.setText("00:00");
+            removeCallbacks(mTicker);
         }
     };
 
@@ -96,11 +96,13 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             mTextureView.pause();
+            removeCallbacks(mHider);
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             mTextureView.start();
+            postDelayed(mHider, HIDE_DELAY);
         }
     };
 
@@ -122,13 +124,16 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
         if (mTextureView.isPlaying()) {
             mTextureView.pause();
             mPlay.setImageResource(R.drawable.play_selector);
-            mHandler.removeCallbacks(mHider);
+            removeCallbacks(mTicker);
+            removeCallbacks(mHider);
 
         } else {
             mTextureView.start();
             mPlay.setVisibility(View.GONE);
             mBottomLayout.setVisibility(View.GONE);
             mPlay.setImageResource(R.drawable.pause_selector);
+
+            postDelayed(mTicker, DELAY);
         }
     }
 
@@ -139,7 +144,7 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
                 if (mProgressBar.getVisibility() == View.GONE) {
                     mPlay.setVisibility(VISIBLE);
                     mBottomLayout.setVisibility(VISIBLE);
-                    mHandler.postDelayed(mHider, HIDE_DELAY);
+                    postDelayed(mHider, HIDE_DELAY);
                 }
                 break;
         }
@@ -150,10 +155,10 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
 
         @Override
         public void run() {
-            Log.d(TAG, "run: ");
             mCurrentTime.setText(TimeUtils.stringForTime(mTextureView.getCurrentPosition()));
+            mDuration.setText(TimeUtils.stringForTime(mTextureView.getDuration()));
             mSeekBar.setProgress((int) mTextureView.getCurrentPosition());
-            mSeekBar.postDelayed(mTicker, DELAY);
+            postDelayed(mTicker, DELAY);
         }
     };
 
@@ -164,4 +169,12 @@ public class VideoView extends FrameLayout implements View.OnClickListener{
             mBottomLayout.setVisibility(View.GONE);
         }
     };
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mTextureView.stopPlayback();
+        removeCallbacks(mTicker);
+        removeCallbacks(mHider);
+    }
 }
