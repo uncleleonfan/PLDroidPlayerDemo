@@ -20,10 +20,7 @@ public class PLVideoViewActivity extends AppCompatActivity{
         mPlVideoView.setVideoPath(path);
         mPlVideoView.setMediaController(new MediaController(this));
         mPlVideoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_PAVED_PARENT);
-
         mPlVideoView.setBufferingIndicator(findViewById(R.id.progress_bar));
-        mPlVideoView.start();
-
     }
 
 
