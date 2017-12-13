@@ -1,5 +1,17 @@
-# PLDroidPlayer使用教程 #
-[官方文档](https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk?ref=www.qiniu.com)
+# 一天开发一个播放器Demo：PLDroidPlayer实战 #
+上次对播放器ijkPlayer和PLDroidPlayer进行了[评测](https://juejin.im/post/5a1d8f10f265da431523a849)，总体来说：
+
+1. ijkPlayer可以自己裁剪编译，灵活性较好；
+2. PLDroidPlayer不能裁剪，所以不需要编译，集成简单
+3. PLDroidPlayer首开速度要快
+4. PLDroidPlayer在软解码条件下CPU和内存消耗较少
+
+这次，我们和PLDroidPlayer玩耍了一下，集成了PLDroidPlayer的SDK，并且PLDroidPlayer的基础上自定义了播放器界面，整体体验如下：
+
+1. 由于[官方文档](https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk?ref=www.qiniu.com)十分详细，所以集成SDK仅仅花费了几分钟时间，就能使用PLDroidPlayer播放视频了；
+2. 集成过程中发现比较特别的功能，如DNS解析优化，本地缓存等；
+3. 自定义UI界面花费时间较多，有很多细节需要处理。
+
 
 ![](img/pl.gif)
 ## 集成SDK ##
@@ -281,3 +293,10 @@ PLDroidPlayer只提供比较简单的播放控件PLVideoView和PLVideoTextureVie
         removeCallbacks(mHider);//移除定时隐藏
     }
 
+## 小结 ##
+事实上，如果对播放器的内核没有特殊自定义需求，直接使用PLDroidPlayer是个不错的选择，集成简单，节省不少时间成本，并且性能不错。当然对于PLDroidPlayer也有一些不足的地方：
+
+1. 没有提供Gradle依赖来下载SDK相关文件，需要自己去Github下载。
+2. 其实PLDroidPlayer还可以提供一套可默认的UI层的库，这样开发者如果对UI没有定制化需求，那么简直不要太简单。
+3. 在使用过程中还存在一些小Bug，比如会已播放时长超过视频总时长的情况，不知道是不是我的使用姿势问题还是SDK的问题。
+4. 我还尝试过将PLDroidPlayer放在列表中想做一个类似今日头条的视频列表效果，但并不成功，不知道是不是我的姿势问题还是SDK没有考虑过这方面的需求。
